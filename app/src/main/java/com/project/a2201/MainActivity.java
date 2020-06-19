@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 321;
     private static final int REQUEST_PERMISSION_READ = 123;
     private static final int REQUEST_PERMISSION_WRITE = 113;
+    private TextView resultView;
 
 
 
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        resultView = (TextView) findViewById(R.id.txt_result);
         initImageView();
         try {
             prepareLanguageDir();
@@ -236,10 +240,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            m_tess.setImage(BitmapFactory.decodeResource(getResources(), R.drawable.input_image3));
-            result = m_tess.getUTF8Text();
-            TextView resultView = (TextView) findViewById(R.id.txt_result);
+
+            Bitmap bitmap = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
+            m_tess.setImage(bitmap);
+            result = m_tess.getUTF8Text();l
+
             resultView.setText(result);
+
         } catch (Exception e) {
             // Do what you like here...
         }
